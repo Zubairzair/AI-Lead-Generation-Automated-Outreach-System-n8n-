@@ -75,13 +75,13 @@
         -1088,
         -448
       ],
-      "id": "fb36df6e-33cd-4a44-8654-22ae533bd484",
+      "<your_Api>": "fb36df6e-33cd-4a44-8654-22ae533bd484",
       "name": "Loop Over Items"
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "https://api.apify.com/v2/actors/compass~crawler-google-places/run-sync-get-dataset-items",
+        "url": "https://api.apify.com/v2/actors/your id/run-sync-get-dataset-items",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -110,7 +110,7 @@
         -1408,
         -112
       ],
-      "id": "4d69dfe8-37c3-4f63-adf0-8bee2786c9ee",
+      "id": " <your_Api>",
       "name": "Apify"
     },
     {
@@ -130,11 +130,11 @@
         -1280,
         304
       ],
-      "id": "7f12b9e0-2b96-468e-bc2f-78409808a855",
+      "id": "<your_Api>",
       "name": "LLM",
       "credentials": {
         "openAiApi": {
-          "id": "E2vLGa0vlIXFDoRi",
+          "id": "<your_Api>",
           "name": "OpenAI account"
         }
       }
@@ -292,7 +292,7 @@
       "webhookId": "269b5356-efe3-4ac1-939b-1b615855bd23",
       "credentials": {
         "gmailOAuth2": {
-          "id": "hJVXjX9y30dxvBjd",
+          "id": "<your_Api>",
           "name": "Gmail account"
         }
       }
@@ -322,7 +322,7 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "Bearer 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"
+              "value": "Bearer <your_Api>"
             }
           ]
         },
@@ -367,7 +367,7 @@
           ]
         },
         "options": {
-          "proxy": "=http://rnajnynb:95q2wc51b7am@31.59.20.176:6754/"
+          "proxy": "=http://<your_Api>/"
         }
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -376,7 +376,7 @@
         -624,
         -144
       ],
-      "id": "7da24b74-bbdd-4b50-9a64-82114908745d",
+      "id": "<your_Api>",
       "name": "Web Search"
     },
     {
@@ -453,17 +453,17 @@
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "1qEByvuqnIqwuhmmId-7CGlYY7arOqmWq0ESF8coKHDU",
+          "value": "<your_Api>",
           "mode": "list",
           "cachedResultName": "Lead Generation CRM",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qEByvuqnIqwuhmmId-7CGlYY7arOqmWq0ESF8coKHDU/edit?usp=drivesdk"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/<your_Api>/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
           "value": "gid=0",
           "mode": "list",
           "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qEByvuqnIqwuhmmId-7CGlYY7arOqmWq0ESF8coKHDU/edit#gid=0"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/<your_Api>/edit#gid=0"
         },
         "columns": {
           "mappingMode": "defineBelow",
@@ -597,7 +597,7 @@
       "webhookId": "b24e4d49-f9a4-40a7-b10f-3bdeb02225c1",
       "credentials": {
         "gmailOAuth2": {
-          "id": "hJVXjX9y30dxvBjd",
+          "id": "<your_Api>",
           "name": "Gmail account"
         }
       }
@@ -631,11 +631,11 @@
         -224,
         -304
       ],
-      "id": "1c7ed9a4-0b55-495a-8df9-6d213725d0b9",
+      "id": "<your_Api>",
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
-          "id": "E2vLGa0vlIXFDoRi",
+          "id": "<your_Api>",
           "name": "OpenAI account"
         }
       }
@@ -872,8 +872,8 @@
   "versionId": "071d37da-3b30-460e-abba-800bc5646250",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "f31926b9719b5067646e4eee2a8f6da9a0adaefdfd2cebf6db1dc4b7f7a4e4be"
+    "instanceId": <your_Api>"
   },
-  "id": "9HfKtqRYFDlmuoa3",
+  "id": "",
   "tags": []
 }
