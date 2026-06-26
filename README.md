@@ -1,0 +1,2 @@
+# AI-Lead-Generation-Automated-Outreach-System-n8n-
+ Designed and implemented an AI-powered lead generation and outreach system using n8n automation.  The system automatically identifies targeted businesses based on industry and location, enriches lead data through company research, analyzes business information, generates personalized outreach emails using AI, stores lead records in CRM systems. 
