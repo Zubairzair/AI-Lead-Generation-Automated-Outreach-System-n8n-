@@ -144,17 +144,17 @@
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "1qEByvuqnIqwuhmmId-7CGlYY7arOqmWq0ESF8coKHDU",
+          "value": "",
           "mode": "list",
           "cachedResultName": "Lead Generation CRM",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qEByvuqnIqwuhmmId-7CGlYY7arOqmWq0ESF8coKHDU/edit?usp=drivesdk"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d//edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
           "value": "gid=0",
           "mode": "list",
           "cachedResultName": "Sheet1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qEByvuqnIqwuhmmId-7CGlYY7arOqmWq0ESF8coKHDU/edit#gid=0"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d//edit#gid=0"
         },
         "columns": {
           "mappingMode": "defineBelow",
@@ -249,7 +249,7 @@
       "name": "CRM",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "GfGET2sts9fOzFow",
+          "id": "<your_mail>",
           "name": "Google Sheets account"
         }
       }
@@ -273,7 +273,7 @@
     },
     {
       "parameters": {
-        "sendTo": "hafizzubair279@gmail.com",
+        "sendTo": "<your_mail>",
         "subject": "hello",
         "emailType": "text",
         "message": "asasasa",
@@ -301,7 +301,7 @@
       "parameters": {
         "url": "https://ipv4.webshare.io",
         "options": {
-          "proxy": "=http://rnajnynb:95q2wc51b7am@31.59.20.176:6754/"
+          "proxy": "=http://@<your_mail>/"
         }
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -557,7 +557,7 @@
       "name": "Append row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "GfGET2sts9fOzFow",
+          "id": "<your_mail>",
           "name": "Google Sheets account"
         }
       }
