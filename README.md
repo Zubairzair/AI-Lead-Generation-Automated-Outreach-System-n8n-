@@ -23,6 +23,7 @@ This workflow automates the following key operations:
 ##  Workflow Architecture
 ![Workflow Diagram](lead_genertion.png)
 
+
 ##  Impact
 *   **Operational Efficiency:** Reduced lead-to-outreach cycle time by over 80%.
 *   **Personalization:** Achieved higher response rates through AI-generated custom messaging.
