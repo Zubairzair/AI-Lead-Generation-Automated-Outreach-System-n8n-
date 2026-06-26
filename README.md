@@ -21,7 +21,7 @@ This workflow automates the following key operations:
 *   **Core Concepts:** Webhooks, Workflow Automation, API Integration
 
 ##  Workflow Architecture
-![Workflow Diagram](workflow.png)
+![Workflow Diagram](lead_genertion.png)
 
 ##  Impact
 *   **Operational Efficiency:** Reduced lead-to-outreach cycle time by over 80%.
