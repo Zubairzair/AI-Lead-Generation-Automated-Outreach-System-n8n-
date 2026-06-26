@@ -1,0 +1,879 @@
+{
+  "name": "Lead Genration Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Leads",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Enter Location in City, country Format",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Enter Industry",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "customCss": ":root {\n\n\t/* Fonts */\n\t--font-family: 'Open Sans', sans-serif;\n\t--font-weight-normal: 400;\n\t--font-weight-bold: 700;\n\n\t/* Font Sizes */\n\t--font-size-body: 14px;\n\t--font-size-label: 15px;\n\t--font-size-input: 15px;\n\t--font-size-header: 28px;\n\t--font-size-subheader: 16px;\n\t--font-size-paragraph: 14px;\n\n\t/* Main Colors */\n\t--color-background: #eaf3ff;\n\n\t/* Card */\n\t--color-card-bg: #ffffff;\n\t--color-card-border: #b9d4ff;\n\t--color-card-shadow: rgba(0, 82, 204, 0.15);\n\n\t/* Text */\n\t--color-header: #0b2c5f;\n\t--color-header-subtext: #4f6b8f;\n\t--color-label: #123d7a;\n\t--color-input-text: #1f2937;\n\n\t/* Links */\n\t--color-link: #0066ff;\n\t--color-html-link: #0066ff;\n\t--color-html-text: #334155;\n\n\t/* Inputs */\n\t--color-input-border: #bfd8ff;\n\t--color-focus-border: #0066ff;\n\n\t/* Submit Button */\n\t--color-submit-btn-bg: #0066ff;\n\t--color-submit-btn-text: #ffffff;\n\n\t/* Validation */\n\t--color-error: #dc2626;\n\t--color-required: #0066ff;\n\n\t/* Notice */\n\t--color-test-notice-text: #0057d8;\n\t--color-test-notice-bg: #eef5ff;\n\t--color-test-notice-border: #bfd8ff;\n\n\t/* Misc */\n\t--color-clear-button-bg: #0066ff;\n\n\t/* Radius */\n\t--border-radius-card: 16px;\n\t--border-radius-input: 12px;\n\t--border-radius-clear-btn: 50%;\n\t--card-border-radius: 16px;\n\n\t/* Padding */\n\t--padding-container-top: 24px;\n\t--padding-card: 28px;\n\t--padding-form-input: 14px;\n\n\t/* Width */\n\t--container-width: 520px;\n\t--submit-btn-height: 54px;\n\t--checkbox-size: 20px;\n\n\t/* Shadow */\n\t--box-shadow-card: 0 10px 30px rgba(0,82,204,0.12);\n\n\t--opacity-placeholder: 0.65;\n}"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -1728,
+        -112
+      ],
+      "id": "eb5543b6-5627-4d1a-bf59-425e2705898e",
+      "name": "On form submission",
+      "webhookId": "68bc601b-1a66-42b2-ada9-12822442d7df"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "bb7ba4dc-eb13-44e4-8979-feb9c91bb861",
+              "leftValue": "={{ $json.website }}",
+              "rightValue": "Handyman/Handywoman/Handyperson",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -1408,
+        -400
+      ],
+      "id": "769c091a-2ee3-4bd7-97e1-0c553f885336",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1088,
+        -448
+      ],
+      "id": "fb36df6e-33cd-4a44-8654-22ae533bd484",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actors/compass~crawler-google-places/run-sync-get-dataset-items",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer <your_Api>"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"includeWebResults\": false,\n    \"language\": \"en\",\n    \"locationQuery\": \"{{ $json['Enter Location in City, country Format'] }}\",\n    \"maxCrawledPlacesPerSearch\": 6,\n    \"maximumLeadsEnrichmentRecords\": 0,\n    \"scrapeContacts\": false,\n    \"scrapeDirectories\": false,\n    \"scrapeImageAuthors\": false,\n    \"scrapeOrderOnline\": false,\n    \"scrapePlaceDetailPage\": false,\n    \"scrapeReviewsPersonalData\": true,\n    \"scrapeSocialMediaProfiles\": {\n        \"facebooks\": false,\n        \"instagrams\": false,\n        \"tiktoks\": false,\n        \"twitters\": false,\n        \"youtubes\": false\n    },\n    \"scrapeTableReservationProvider\": false,\n    \"searchStringsArray\": [\n        \"{{ $json['Enter Industry'] }}\"\n    ],\n    \"skipClosedPlaces\": false,\n    \"verifyLeadsEnrichmentEmails\": false\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1408,
+        -112
+      ],
+      "id": "4d69dfe8-37c3-4f63-adf0-8bee2786c9ee",
+      "name": "Apify"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "responsesApiEnabled": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -1280,
+        304
+      ],
+      "id": "7f12b9e0-2b96-468e-bc2f-78409808a855",
+      "name": "LLM",
+      "credentials": {
+        "openAiApi": {
+          "id": "E2vLGa0vlIXFDoRi",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1qEByvuqnIqwuhmmId-7CGlYY7arOqmWq0ESF8coKHDU",
+          "mode": "list",
+          "cachedResultName": "Lead Generation CRM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qEByvuqnIqwuhmmId-7CGlYY7arOqmWq0ESF8coKHDU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qEByvuqnIqwuhmmId-7CGlYY7arOqmWq0ESF8coKHDU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Compny Name": "={{ $('Apify').item.json.title }}",
+            "Adress": "={{ $('Apify').item.json.address }}",
+            "Category": "={{ $('Apify').item.json.categoryName }}",
+            "Phone": "={{ $('Apify').item.json.phone }}",
+            "Website": "={{ $('Apify').item.json.website }}",
+            "Email": "={{ $('email finder').item.json.emails_found[0] }}",
+            "Outreach meesege": "={{ $('AI Agent').item.json.output }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Compny Name",
+              "displayName": "Compny Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Adress",
+              "displayName": "Adress",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Outreach meesege",
+              "displayName": "Outreach meesege",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -992,
+        -272
+      ],
+      "id": "314868c4-6d17-4bd7-9cc8-91b135f8931c",
+      "name": "CRM",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GfGET2sts9fOzFow",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Comany Name :{{ $('Apify').item.json.title }}\nAddress:{{ $('Apify').item.json.address }}\nCategory :{{ $('Apify').item.json.categories[0] }}\nwebsite data:\n{{ $json.results[0].raw_content }}\n",
+        "options": {
+          "systemMessage": "You are a senior AI Automation Consultant and Business Development Specialist.\n\nIMPORTANT:\n\nThe lead research has already been completed before you receive the data.\n\nYou will receive company research, website information, business details, social media insights, decision maker information, and other relevant findings.\n\nDo NOT perform additional research.\nDo NOT ask for more information.\nDo NOT mention missing information.\n\nYour responsibility is to carefully study the provided data, understand the business, think critically, and create a highly personalized outreach email.\n\nYOUR THINKING PROCESS:\n\n1. Analyze the provided business information carefully.\n\n2. Understand:\n\n   * What the company does\n   * How they likely operate\n   * Their target customers\n   * Their business model\n   * Their current growth stage\n   * Their likely operational challenges\n\n3. Based on the provided data, infer the most valuable opportunity where AI Automation, AI Agents, Chatbots, Integrations, APIs, or Workflow Automation could improve their business.\n\n4. Focus on the opportunity that would create the highest business impact.\n\n5. Think like a consultant who understands business operations, not like a salesperson.\n\nPERSONALIZATION RULES:\n\n* Use the decision maker's name whenever available.\n* If no name is available, naturally reference the company name.\n* Reference actual information found in the provided research.\n* Make it obvious that the message was written specifically for this company.\n\nWRITING RULES:\n\n* Human and natural.\n* Professional but conversational.\n* No hype.\n* No generic marketing language.\n* No agency-style introductions.\n* No long self-introduction.\n\nDo not start with:\n\"I am an AI Automation Expert...\"\n\"We provide AI Automation Services...\"\n\nInstead, begin with an observation, insight, or business opportunity derived from the provided data.\n\nMESSAGE STRUCTURE:\n\n1. Personalized opening.\n2. Observation based on provided research.\n3. Business opportunity or inefficiency identified from the information.\n4. Relevant AI Automation solution.\n5. Expected business benefit.\n6. Soft call to action.\n\nThe message should feel as if a real consultant personally reviewed the business.\n\nSIGNATURE:\n\nM. Zubair Zair\n\nOUTPUT FORMAT:\n\nReturn ONLY valid JSON.\n\n{\n\"subject\": \"Personalized subject line\",\n\"body\": \"Personalized outreach email\"\n}\n\nDo not return explanations.\nDo not return markdown.\nDo not return code blocks.\nDo not return anything outside the JSON object.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -672,
+        192
+      ],
+      "id": "e9b618cd-87f8-4a5b-a43b-e6d60aa2e631",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "sendTo": "hafizzubair279@gmail.com",
+        "subject": "hello",
+        "emailType": "text",
+        "message": "asasasa",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        -32
+      ],
+      "id": "3f2111b2-4c7b-425e-ab50-72400e72ca1c",
+      "name": "Send a message",
+      "webhookId": "269b5356-efe3-4ac1-939b-1b615855bd23",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "hJVXjX9y30dxvBjd",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://ipv4.webshare.io",
+        "options": {
+          "proxy": "=http://rnajnynb:95q2wc51b7am@31.59.20.176:6754/"
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -624,
+        -352
+      ],
+      "id": "b5a00b4f-541f-4e47-9438-e511f6dd0146",
+      "name": "Proxy Setup"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/extract",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "urls",
+              "value": "={{ $('Filter').item.json.website }}"
+            },
+            {
+              "name": "query"
+            },
+            {
+              "name": "chunks_per_source",
+              "value": "3"
+            },
+            {
+              "name": "extract_depth",
+              "value": "basic"
+            },
+            {
+              "name": "include_images",
+              "value": "false"
+            },
+            {
+              "name": "include_favicon",
+              "value": "false"
+            },
+            {
+              "name": "format",
+              "value": "markdown"
+            },
+            {
+              "name": "timeout",
+              "value": "120"
+            },
+            {
+              "name": "include_usage",
+              "value": "false"
+            }
+          ]
+        },
+        "options": {
+          "proxy": "=http://rnajnynb:95q2wc51b7am@31.59.20.176:6754/"
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -624,
+        -144
+      ],
+      "id": "7da24b74-bbdd-4b50-9a64-82114908745d",
+      "name": "Web Search"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Filter').item.json.website }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1504,
+        192
+      ],
+      "id": "d437a23b-559c-47dc-b705-83f7d915f7b8",
+      "name": "Get HTML",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// پچھلے HTTP Request نوڈ کا نام چیک کر لیں (مثلاً if it's HTTP Request1)\n// یہ کوڈ پچھلے نوڈ کے ٹیکسٹ آؤٹ پٹ کو پڑھے گا\nlet htmlData = $json.data; \n\nif (htmlData) {\n  // ای میلز ڈھونڈنے کا پکا ریجیکس (Regex Pattern)\n  const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}/g;\n  \n  // HTML میں سے تمام میچ ہونے والی ای میلز نکالنا\n  const foundEmails = htmlData.match(emailRegex);\n  \n  // اگر ای میلز مل جائیں تو انہیں یونیک (Duplicate فری) کر کے واپس بھیجنا\n  if (foundEmails && foundEmails.length > 0) {\n    let uniqueEmails = [...new Set(foundEmails)];\n    \n    return {\n      emails_found: uniqueEmails,\n      status: \"Success\"\n    };\n  }\n}\n\nreturn {\n  emails_found: [],\n  status: \"No email found on page\"\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -960,
+        176
+      ],
+      "id": "b62103e6-ae60-4a47-ac3f-e367b6f9b3f1",
+      "name": "email finder"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "63d77bb0-0fbe-4651-af60-9e599901b8ab",
+              "leftValue": "={{ $('email finder').item.json.emails_found }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -352,
+        -176
+      ],
+      "id": "912f5460-dc1a-4652-8c3f-37192d3cdb7a",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1qEByvuqnIqwuhmmId-7CGlYY7arOqmWq0ESF8coKHDU",
+          "mode": "list",
+          "cachedResultName": "Lead Generation CRM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qEByvuqnIqwuhmmId-7CGlYY7arOqmWq0ESF8coKHDU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qEByvuqnIqwuhmmId-7CGlYY7arOqmWq0ESF8coKHDU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Compny Name": "={{ $('Filter').item.json.title }}",
+            "Adress": "={{ $('Filter').item.json.address }}",
+            "Website": "={{ $('Filter').item.json.website }}",
+            "Phone": "={{ $('Filter').item.json.phone }}",
+            "Outreach meesege": "={{ $('AI Agent').item.json.output }}",
+            "Category": "={{ $('Filter').item.json.categories }}",
+            "Email": "Not Found"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Compny Name",
+              "displayName": "Compny Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Adress",
+              "displayName": "Adress",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Outreach meesege",
+              "displayName": "Outreach meesege",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -240,
+        64
+      ],
+      "id": "3feae12f-08d1-4689-b086-dfe6cea130f5",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GfGET2sts9fOzFow",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "unit": "days"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -320,
+        -528
+      ],
+      "id": "fe885307-1fee-473a-9c9b-44c0765741c8",
+      "name": "Wait",
+      "webhookId": "27021c15-b3de-4281-a045-056869e6299d"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('email finder').item.json.emails_found[0] }}",
+        "subject": "={{ $('Code in JavaScript1').item.json.subject }}",
+        "emailType": "text",
+        "message": "={{ $('Code in JavaScript1').item.json.body }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -624,
+        -544
+      ],
+      "id": "c6e3a483-c944-45a1-92af-602b8601ee28",
+      "name": "Send a message1",
+      "webhookId": "b24e4d49-f9a4-40a7-b10f-3bdeb02225c1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "hJVXjX9y30dxvBjd",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        144,
+        -416
+      ],
+      "id": "0ee5c678-d84c-42f4-8474-9aa439969338",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -224,
+        -304
+      ],
+      "id": "1c7ed9a4-0b55-495a-8df9-6d213725d0b9",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "E2vLGa0vlIXFDoRi",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const rawText = $input.item.json.output;\nconst parsedData = JSON.parse(rawText);\n\nreturn {\n  subject: parsedData.subject,\n  body: parsedData.body\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -32,
+        192
+      ],
+      "id": "34955031-e2d9-4390-9e85-b278256efeed",
+      "name": "Code in JavaScript1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Apify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Get HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Proxy Setup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apify": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CRM": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Proxy Setup": {
+      "main": [
+        [
+          {
+            "node": "Web Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Search": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get HTML": {
+      "main": [
+        [
+          {
+            "node": "email finder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "email finder": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "CRM",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "071d37da-3b30-460e-abba-800bc5646250",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f31926b9719b5067646e4eee2a8f6da9a0adaefdfd2cebf6db1dc4b7f7a4e4be"
+  },
+  "id": "9HfKtqRYFDlmuoa3",
+  "tags": []
+}
