@@ -33,3 +33,5 @@ This workflow automates the following key operations:
 2.  Open your **n8n** dashboard and select "Import Workflow."
 3.  Configure your credentials for **OpenAI API**, **Gmail**, and your specific **CRM**.
 4.  Activate the workflow to start automating your outreach.
+## Important Security Note:
+"For security reasons, this JSON file does not include pre-configured credentials. To run this workflow, you must connect your own OpenAI API Key, Google Service Account/OAuth, and CRM credentials within your n8n instance under the 'Credentials' settings."
